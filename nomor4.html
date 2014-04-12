@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>SPNon-Linier | Bagi Dua</title>
+	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="jumbotron">
+		<h1 style="text-align:center;">Perhitungan Biseksi / Bagi Dua</h1>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<table class="table table-default">
+					<colgroup style="width:50%;"></colgroup>
+					<colgroup style="width:50%;"></colgroup>
+					<tr>
+						<td>
+							<label>Fungsi</label>
+						</td>
+						<td>
+							<input id="fungsi" class="form-control" placeholder="2*(x*x)-(10*x)" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>Selang 1</label>
+						</td>
+						<td>
+							<input id="selang1" class="form-control" placeholder="3" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>Selang 2</label>
+						</td>
+						<td>
+							<input id="selang2" class="form-control" placeholder="8" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>Limit</label>						
+						</td>
+						<td>
+							<input id="limit" class="form-control" placeholder="0.01" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button id="calculate" class="btn btn-info pull-right">Submit</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="result"></div>
+	<script type="text/javascript">
+	function calcFn(fx, x) {
+		var e = 2.71;
+		var math = Math;
+		var evaluated = eval(fx);
+		var calcFx =  evaluated;
+		return calcFx;
+	};
+	function cariSelang(fa,fb,fc) {
+		if (fa*fc<0) {
+			var selangBaru = "a,c";
+		} else {
+			var selangBaru = "c,b";
+		}
+		return selangBaru;
+	};
+	function cariLebar(a, b, c, fa,fb,fc) {
+		if (fa*fc<0) {
+			var Lebar = c - a;
+		} else {
+			var Lebar = b - c;
+		}
+		return Lebar;
+	};
+	function Footer() {
+		document.write("<footer class='footer' style='background-color:#000;color:#fff;margin-top:30px;padding:10px 0px;'><div class='container'><div class='col-md-12'><span class='pull-right'>Developed by: Sendy Aditya Suryana</span></div></footer>");
+	}
+	$('#calculate').click(function(){
+		var a = eval($('#selang1').val());
+		var b = eval($('#selang2').val());
+		var c = (a+b)/2;
+		var fx = $('#fungsi').val();
+		var lim = $('#limit').val();
+		var fa = calcFn(fx, a);
+		var fb = calcFn(fx, b);
+		var fc = calcFn(fx, c);
+		var Selang = cariSelang(fa,fb,fc);
+		var Lebar = cariLebar(a,b,c,fa,fb,fc);
+		document.write(
+			"<link rel='stylesheet' type='text/css' href='css/bootstrap.min.css'>" +
+			"<div class='jumbotron'><h1 style='text-align:center;'>Tabel Perhitungan</h1></div>" +
+			"<div class='container'>" +
+			"<div class='row'>" +
+			"<div class='col-md-12'>" +
+			"<table class='table table-bordered table-hover table-striped'>" +
+				"<tr>" +
+					"<th>a</th>" +
+					"<th>c</th>" +
+					"<th>b</th>" +
+					"<th>f(a)</th>" +
+					"<th>f(c)</th>" +
+					"<th>f(b)</th>" +
+					"<th>Selang Baru</th>" +
+					"<th>Lebar</th>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>" + a + "</td>" +
+					"<td>" + c + "</td>" +
+					"<td>" + b + "</td>" +
+					"<td>" + fa + "</td>" +
+					"<td>" + fc + "</td>" +
+					"<td>" + fb + "</td>" +
+					"<td>" + Selang + "</td>" +
+					"<td>" + Lebar + "</td>" +
+				"</tr>");
+		for(i = Lebar; i > lim; i=Lebar) {
+			if (fa*fc<0) {
+				var a = eval(a);
+				var b = eval(c);
+			} else {
+				var a = eval(c);
+				var b = eval(b);
+			}
+			var c = (a+b)/2;
+			var fa = calcFn(fx, a);
+			var fb = calcFn(fx, b);
+			var fc = calcFn(fx, c);
+			var Selang = cariSelang(fa,fb,fc);
+			var Lebar = cariLebar(a,b,c,fa,fb,fc);
+			document.write(
+				"<tr>" +
+					"<td>" + a + "</td>" +
+					"<td>" + c + "</td>" +
+					"<td>" + b + "</td>" +
+					"<td>" + fa + "</td>" +
+					"<td>" + fc + "</td>" +
+					"<td>" + fb + "</td>" +
+					"<td>" + Selang + "</td>" +
+					"<td>" + Lebar + "</td>" +
+				"</tr>"
+				);
+			if (Lebar < lim) {
+				break;
+			}
+		};
+		document.write("</div></div></div></table>");
+		document.write("<h3><span class='label label-success'>Maka akar = " + c + " f(c)" + " ketika lebar " + Lebar +"</span></h3>");
+		document.write("</div></div></div>")
+		Footer();
+	});
+	function Formula(Rumus, x) {
+		var Rumus = toLowerCase(Rumus);
+		var outRumus = math.eval(Rumus);
+		return outRumus;
+	};
+	function Bagidua(Fx, a, b) {
+		var c = (a+b)/2;
+		var fa = Formula(Fx,a);
+		var fb = Formula(Fx,b);
+		var fc = Formula(Fx,c);
+	};
+	</script>
+</body>
+</html>
